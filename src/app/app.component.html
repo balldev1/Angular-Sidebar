@@ -1,0 +1,61 @@
+<!-- app.component.html -->
+<div  class="flex w-full h-screen text-rose-500">
+  <div class="w-1/4 bg-gradient-to-b from-purple-500 to-pink-200">
+    <!-- sidebar -->
+<!--    <ul class="space-y-5 p-10">-->
+<!--      <li *ngFor="let data of navbarData"-->
+<!--          [ngClass]="isActive(data.routeLink) ? 'bg-rose-500' : 'bg-black'"-->
+<!--      >-->
+<!--        <a [routerLink]="data.routeLink">-->
+<!--          <i class="{{data.icon}}"></i>-->
+<!--          <span >{{data.label}}</span>-->
+<!--        </a>-->
+<!--        &lt;!&ndash; Check if data has children routes &ndash;&gt;-->
+<!--        <ul *ngIf="data.children" class="ml-5">-->
+<!--          <li *ngFor="let child of data.children"-->
+<!--              [ngClass]="isActive(data.routeLink) ? 'test-rose-500' : 'test-rose-500'"-->
+<!--          >-->
+<!--            <a-->
+<!--              [routerLink]="child.routeLink">{{ child.label }}</a>-->
+<!--          </li>-->
+<!--        </ul>-->
+
+<!--      </li>-->
+<!--    </ul>-->
+
+        <ul class="space-y-5 p-10">
+          <li *ngFor="let data of navbarData">
+            <details [ngClass]="isActive(data.routeLink) || hasActiveChildren(data)  ? 'bg-white' : 'bg-black'"
+                     [attr.open]="isActive(data.routeLink) || hasActiveChildren(data) ? true : null"
+                     class="collapse">
+              <summary [routerLink]="data.routeLink"
+                       class="collapse-title text-xl font-medium flex ">
+                <div class="flex justify-between items-center" >
+                  {{ data.label }}
+                  <svg *ngIf="data.children && data.children.length > 0"
+                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 5.25 7.5 7.5 7.5-7.5m-15 6 7.5 7.5 7.5-7.5" />
+                  </svg>
+                </div>
+
+
+              </summary>
+              <div *ngFor="let child of data?.children! ?? []"
+                   class="collapse-content">
+                <p [routerLink]="child.routeLink"
+                   [ngClass]="isActive(child.routeLink) || hasActiveChildren(child) ? 'bg-black' : 'bg-white text-gray-500' ">{{ child.label }}</p>
+              </div>
+            </details>
+
+          </li>
+
+        </ul>
+
+
+
+  </div>
+  <!-- content -->
+  <div class="w-5/6 bg-pink-500 p-5 text-white">
+    <router-outlet></router-outlet>
+  </div>
+</div>
